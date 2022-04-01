@@ -1,0 +1,43 @@
+(*Задание 13 Написать функции произведение цифр числа, минимальная и
+максимальная цифра с использованием рекурсии вверх и с
+использованием хвостовой рекурсии.*)
+
+open System
+
+let rec mult x =
+    match x with 
+    | 0->1
+    | x->(x%10)*mult(x/10)
+   
+let rec max x a = 
+    match x with
+    | x when x%10 > a -> max (x/10) (x%10)
+    | x when x=0 -> a
+    | x -> max (x/10) a
+        
+let rec min x a = 
+    match x with
+    | x when x=0 -> a
+    | x when x%10 < a -> min (x/10) (x%10)
+    | x -> min (x/10) a
+
+let rec multrec x a = 
+    match x with 
+    | x when x=0 -> a 
+    | x -> multrec (x/10) (x%10)*a  
+
+let rec multdown x = multrec x 1
+
+[<EntryPoint>]
+let main argv =
+    Console.WriteLine("Введите число:")
+    let x = Convert.ToInt32(Console.ReadLine())
+    Console.WriteLine("Произведение всех цифр числа:")
+    Console.WriteLine(mult x)
+    Console.WriteLine("Наибольшая цифра:")
+    Console.WriteLine(max x 0)
+    Console.WriteLine("Наименьшая цифра:")
+    Console.WriteLine(min x 9)
+    Console.WriteLine("Произведение всех цифр числа #2(Рекурсия вниз):")
+    Console.WriteLine(multdown x)
+    0 
