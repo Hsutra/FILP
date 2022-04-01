@@ -1,0 +1,22 @@
+(*Задание 12 Предыдущую программу реализовать в функции main с
+помощью только оператора суперпозиции, потом только с помощью
+оператора каррирования.*)
+
+open System
+
+let Func (f:string) = 
+    match f with
+    |"F#"|"Prolog"->Console.WriteLine("Подлиза)")
+    |"C#"|"C++"->Console.WriteLine("Стандартно.")
+    |"Pascal"|"Assembler"->Console.WriteLine("Странный..")
+    |f->Console.WriteLine("Не то!!")
+
+[<EntryPoint>]
+let main argv =
+    Console.WriteLine("Пользователь,какой твой любимый язык программирования?") 
+    Console.WriteLine("Каррирование:")
+    let otv = Console.ReadLine()
+    otv|>Func
+    Console.WriteLine("Оператор суперпозиции:")
+    (Console.ReadLine >> Func >> Console.WriteLine)()
+    0 
