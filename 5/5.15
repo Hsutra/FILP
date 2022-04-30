@@ -1,0 +1,29 @@
+(*Задание 15 Написать функцию обход взаимно простых компонентов
+числа, которая выполняет операции над числами, взаимно простыми 
+с данным, принимает три аргумента, число, функция (например, сумма,
+произведение, минимум, максимум, количество) и инициализирующее
+значение. Функция должна иметь два Int аргумента и возвращать Int.*)
+
+open System
+
+let rec NOD a b =
+    if a=b then a
+    else 
+        if a>b then NOD (a-b) b 
+        else NOD a (b-a) 
+
+
+let rec Div(a:int,init:int,beg:int,func:int->int->int):int = 
+    match beg with
+    | beg when beg = a-> init
+    | beg when NOD a beg = 1 -> Div(a,func init beg, beg + 1, func)
+    | beg -> Div(a,init,beg + 1,func)
+
+let uFun (a:int,init:int,func: int->int->int) = Div(a,init,1,func)
+
+let ergv = 
+    Console.WriteLine("Введите число:")
+    let a = System.Convert.ToInt32(Console.ReadLine())
+    Console.WriteLine("Сумма:")
+    Console.WriteLine(uFun(a,0,fun a b -> a + b))
+    0
