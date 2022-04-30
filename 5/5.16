@@ -1,0 +1,34 @@
+(*Задание 16 Протестировать написанную функцию. Построить отдельные
+функции для вычисления числа Эйлера и НОД.*)
+
+open System
+
+let rec NOD a b =
+    if a=b then a
+    else 
+        if a>b then NOD (a-b) b 
+        else NOD a (b-a) 
+
+let Eiler n func init =
+    let rec Eiler n func init a=
+        if a <= 0 then init
+          else 
+          let newInit = if NOD n a = 1 then func init else init 
+          let new_a = a - 1
+          Eiler n func newInit new_a
+    Eiler n func init n
+
+let rec Div(a:int,init:int,beg:int,func:int->int->int):int = 
+    match beg with
+    | beg when beg = a-> init
+    | beg when NOD a beg = 1 -> Div(a,func init beg, beg + 1, func)
+    | beg -> Div(a,init,beg + 1,func)
+
+let uFun (a:int,init:int,func: int->int->int) = Div(a,init,1,func)
+
+let ergv = 
+    Console.WriteLine("Введите число:")
+    let a = System.Convert.ToInt32(Console.ReadLine())
+    Console.WriteLine("Сумма: {0}",uFun(a,0,fun a b -> a + b))
+    System.Console.WriteLine("Функция Эйлера от числа: {0}", Eiler a (fun a  -> a + 1) 0)
+    0
