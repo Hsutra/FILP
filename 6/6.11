@@ -1,0 +1,49 @@
+(*Задание 11 Написать функцию, принимающую в качестве аргумента
+список и функцию трех переменных, и возвращающую новый список
+длины в три раза меньше, где каждый элемент — это результат
+применения функции к соответствующей тройке. На основе этой
+функции модифицировать введенный пользователем список так, чтобы
+каждый элемент нового списка был суммой соответствующей тройки,
+если количество элементов не делится на три, то в качестве
+недостающих элементов использовать единицы.*)
+
+open System
+
+// Ввод элементов
+let rec readList n = 
+    match n with
+       | 0 -> []
+       | _ -> 
+          let Head = System.Convert.ToInt32(System.Console.ReadLine())
+          let Tail = readList (n-1)
+          Head::Tail
+// Вывод элеменмтов
+let rec writeList = function    
+    |[]->0
+    |h::tail->
+        printfn $"{h}"
+        writeList tail
+
+let Prog list func = 
+    let rec Prog_rec list func new_list = 
+        match list with
+        | []->new_list
+        | h::t->
+            let f_el = h //первый элемент
+            let s_el = if t<>[]then t.Head else 1 //  2 элемент
+            let t_el = if t <> [] then (if t.Tail <> [] then t.Tail.Head else 1) else 1 // 3 элеиент
+            let sum = func f_el s_el t_el // ищем сумму 
+            let new_list_2 = new_list@ [sum]//Добавляем элемент в список
+            let shifted_list = if t <> [] then (if t.Tail <> [] then t.Tail.Tail else []) else [] //Сдвиг на 2 элемента
+            Prog_rec shifted_list func new_list_2
+    Prog_rec list func []
+        
+
+[<EntryPoint>]
+let main argv =
+    Console.WriteLine("Введите количество элементов:")
+    let list = readList (System.Convert.ToInt32(System.Console.ReadLine()))
+    let new_list = Prog list (fun a b c -> a + b + c)
+    Console.WriteLine("Результат:")
+    writeList new_list
+    0
