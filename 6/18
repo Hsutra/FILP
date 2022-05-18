@@ -1,0 +1,48 @@
+(*Дан целочисленный массив. Необходимо найти элементы,
+расположенные перед первым минимальным.*)
+
+open System
+
+// Ввод элементов
+let rec readList n = 
+    match n with
+       | 0 -> []
+       | _ -> 
+          let Head = System.Convert.ToInt32(System.Console.ReadLine())
+          let Tail = readList (n-1)
+          Head::Tail
+
+// Вывод элементов
+let rec writeList = function    
+    |[]->0
+    |h::tail->
+        printfn $"{h}"
+        writeList tail
+
+let MinList list = 
+   let rec NewMinList list cur_min = 
+      match list with 
+      | [] -> cur_min
+      | head::t ->
+         let new_cur_min = if head < cur_min then head else cur_min
+         NewMinList t new_cur_min 
+   NewMinList list list.Head
+
+let BeforeMin list = 
+   let minList = MinList list
+
+   let rec GetList (list: 'a list) new_list = 
+      if list.Head = minList then new_list else
+         let new_list2 = new_list @[list.Head]
+         let next_list = list.Tail
+         GetList next_list new_list2
+   GetList list []
+
+[<EntryPoint>]
+let main argv =
+    Console.WriteLine("Введите количество элементов:")
+    let list = readList (System.Convert.ToInt32(System.Console.ReadLine()))
+    Console.WriteLine("Элементы, расположенные перед первым минимальным:")
+    let list2 = BeforeMin list
+    writeList list2
+    0
