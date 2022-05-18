@@ -4,8 +4,6 @@
 
 open System
 
-open System
-
 // Ввод элементов
 let rec readList n = 
     match n with
