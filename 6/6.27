@@ -1,0 +1,41 @@
+(*Дан целочисленный массив.Необходимо осуществить
+циклический сдвиг элементов массива влево на одну позицию.*)
+
+open System
+
+// Ввод элементов
+let rec readList n = 
+    match n with
+       | 0 -> []
+       | _ -> 
+          let Head = System.Convert.ToInt32(System.Console.ReadLine())
+          let Tail = readList (n-1)
+          Head::Tail
+
+// Вывод элементов
+let rec writeList = function    
+    |[]->0
+    |h::tail->
+        printfn $"{h}"
+        writeList tail
+
+let Left (list: 'a list) =
+   if list.Length <= 1 then list
+   else
+       list.Tail@ [list.Head]
+
+let rec LeftN list n = 
+   if n = 0 then list
+   else
+       let new_n = n - 1
+       let new_list = Left list
+       LeftN new_list new_n
+
+[<EntryPoint>]
+let main argv =
+    Console.WriteLine("Введите количество элементов:")
+    let list = readList (System.Convert.ToInt32(System.Console.ReadLine()))
+    let list2 = LeftN list 1
+    Console.WriteLine("Новый список:")
+    writeList list2
+    0
