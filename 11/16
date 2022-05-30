@@ -1,0 +1,9 @@
+maxdigdown(X,Max):-maxdigdown(X,0,Max).
+maxdigdown(0,Max,Max):-!.
+maxdigdown(X,C,Max):-
+    X1 is X div 10,
+    D1 is X mod 10,
+    D1>C, !,
+    maxdigdown(X1,D1,Max);
+    X2 is X div 10,
+    maxdigdown(X2,C,Max).
