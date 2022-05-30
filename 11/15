@@ -1,0 +1,5 @@
+maxdigup(X,X):-X<10.
+maxdigup(X,Max):-
+    X1 is X div 10,
+    X2 is X mod 10,
+maxdigup(X1,Max1),(X2<Max1, Max is Max1; Max is X2).
