@@ -1,0 +1,6 @@
+mindigup(0,9) :- !.
+mindigup(X,Y) :-
+    X1 is X div 10,
+    mindigup(X1,Y1),
+    Y2 is X mod 10,
+    (Y2<Y1, Y2 mod 2 =\=0 -> Y is Y2; Y is Y1).
