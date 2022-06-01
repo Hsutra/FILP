@@ -1,0 +1,39 @@
+% 12 Найти сумму всех делителей числа, взаимно простых с суммой цифр числа и не взаимно простых с произведением цифр числа.
+
+mutuallyPrime(A, B, X):-
+	A1 is A mod B,
+	B1 is B mod A,
+	(
+		A1 == 0, !, X is B;
+		B1 == 0, !, X is A;
+		A > B, !, mutuallyPrime(A1, B, X);
+		mutuallyPrime(A, B1, X)
+	).
+mutuallyPrime(X, Y):- 1 is mutuallyPrime(X, Y).
+
+sumOfDigits(0, 0):-!.
+sumOfDigits(N, Sum):-
+	NextN is N div 10,
+	Num is N mod 10,
+	sumOfDigits(NextN, NextSum),
+	Sum is NextSum + Num.
+
+productOfDigits(0, 0):-!.
+productOfDigits(N, 1):- N > 0, N < 10, !.
+productOfDigits(N, Product):-
+	NextN is N div 10,
+	Num is N mod 10,
+	productOfDigits(NextN, NextProduct),
+	Product is NextProduct * Num.
+
+sumOfDivs(N, Sum):- sumOfDivs(N, 0, 0, Sum).
+sumOfDivs(N, N, Sum, Sum):-!.
+sumOfDivs(N, Div, Summutor, Sum):-
+	NextDiv is Div + 1,
+	NextSummutor is Summutor + NextDiv,
+	0 is N mod NextDiv,
+	sumOfDigits(N, S), mutuallyPrime(NextDiv, S),
+	productOfDigits(N, P), \+mutuallyPrime(NextDiv, P),
+	sumOfDivs(N, NextDiv, NextSummutor, Sum), !;
+	NextDiv is Div + 1,
+	sumOfDivs(N, NextDiv, Summutor, Sum), !.
