@@ -1,0 +1,3 @@
+% 14 Построить предикат, получающий длину списка.
+listLength([], 0):- !.
+listLength([_|Tail], Length):- listLength(Tail, NextLength), Length is NextLength + 1, !.
